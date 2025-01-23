@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import Provider from "./Provider";
 
 
 
@@ -15,14 +16,14 @@ export default function RootLayout({ children }) {
       <body
         
       >
-        <ThemeProvider
+        <Provider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           {children}
-        </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );

@@ -11,7 +11,7 @@ const Provider = ({ children }) => {
     <ContextMessage.Provider value={{ messages, setMessages }}>
       <NextThemesProvider
         attribute="class"
-        defaultTheme="system"
+        defaultTheme="dark"
         enableSystem
         disableTransitionOnChange
       >
