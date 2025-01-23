@@ -1,19 +1,24 @@
-"use client"
-import React from 'react'
+"use client";
+
+import React, { useState } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-const Provider = ({childern}) => {
+import { ContextMessage } from "@/context/ContextMessage";
+
+const Provider = ({ children }) => {
+  const [messages, setMessages] = useState([]);
+
   return (
-    <div>
+    <ContextMessage.Provider value={{ messages, setMessages }}>
       <NextThemesProvider
         attribute="class"
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >
-        {childern}
+        {children}
       </NextThemesProvider>
-    </div>
+    </ContextMessage.Provider>
   );
-}
+};
 
-export default Provider
+export default Provider;
