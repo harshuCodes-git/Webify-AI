@@ -1,13 +1,29 @@
-"use client"
-import { ContextMessage } from '@/context/ContextMessage'
-import Lookup from '@/data/Lookup'
-import { ArrowRight, Link } from 'lucide-react'
-import React, { useContext, useState } from 'react'
+"use client";
+import { ContextMessage } from "@/context/ContextMessage";
+import { UserDetailsContext } from "@/context/UserDetailsContext";
+import Lookup from "@/data/Lookup";
+import { ArrowRight, Link } from "lucide-react";
+import React, { useContext, useState } from "react";
+import SignupDialog from "./SignupDialog";
 
 const Main = () => {
-    const [userInput,setuserInput]=useState()
-    const context = useContext(ContextMessage);
-    const { messages, setMessages } = context;
+  const [userInput, setuserInput] = useState();
+  const context = useContext(ContextMessage);
+  const { messages, setMessages } = context;
+  const {userDetails,setUserDetails}=useContext(UserDetailsContext)
+  const [openDialog,setOpenDialog]=useState(false)
+
+
+  const onGenerate = (input) => {
+    if(!userDetails?.name){
+      setOpenDialog(true)
+      return ; 
+    }
+    setMessages({
+      role: "user",
+      content: input,
+    });
+  };
   return (
     <div className="flex flex-col mt-20 justify-center items-center  gap-2 ">
       <h2 className="font-bold text-4xl">{Lookup.HERO_HEADING}</h2>
@@ -24,7 +40,9 @@ const Main = () => {
             className="outline-none bg-transparent w-full h-32 max-h-56  overflow-auto"
           ></textarea>
           {userInput && (
-            <ArrowRight className="bg-blue-600 p-2  rounded-md cursor-pointer h-8 w-8 " />
+            <ArrowRight 
+            onClick={()=>onGenerate(userInput)}
+            className="bg-blue-600 p-2  rounded-md cursor-pointer h-8 w-8 " />
           )}
         </div>
         <div>
@@ -33,12 +51,19 @@ const Main = () => {
       </div>
       <div className="flex flex-wrap p-2 max-w-2xl justify-center gap-3">
         {Lookup?.SUGGSTIONS.map((suggestion, index) => (
-          <h2  key={index}
-          className='px-2 p-1 border rounded-full text-gray-400 text-xs cursor-pointer hover:text-white'>{suggestion}</h2>
+          <h2
+            key={index}
+            onClick={()=>onGenerate(suggestion)}
+            className="px-2 p-1 border rounded-full text-gray-400 text-xs cursor-pointer hover:text-white"
+          >
+            {suggestion}
+          </h2>
         ))}
       </div>
+      <SignupDialog openDia={openDialog}/>
+      
     </div>
   );
-}
+};
 
-export default Main
+export default Main;
