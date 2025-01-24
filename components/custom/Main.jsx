@@ -40,9 +40,10 @@ const Main = () => {
             className="outline-none bg-transparent w-full h-32 max-h-56  overflow-auto"
           ></textarea>
           {userInput && (
-            <ArrowRight 
-            onClick={()=>onGenerate(userInput)}
-            className="bg-blue-600 p-2  rounded-md cursor-pointer h-8 w-8 " />
+            <ArrowRight
+              onClick={() => onGenerate(userInput)}
+              className="bg-blue-600 p-2  rounded-md cursor-pointer h-8 w-8 "
+            />
           )}
         </div>
         <div>
@@ -53,15 +54,14 @@ const Main = () => {
         {Lookup?.SUGGSTIONS.map((suggestion, index) => (
           <h2
             key={index}
-            onClick={()=>onGenerate(suggestion)}
+            onClick={() => onGenerate(suggestion)}
             className="px-2 p-1 border rounded-full text-gray-400 text-xs cursor-pointer hover:text-white"
           >
             {suggestion}
           </h2>
         ))}
       </div>
-      <SignupDialog openDia={openDialog}/>
-      
+      <SignupDialog openDia={openDialog} closeDialog ={(v)=>setOpenDialog(false)}/>
     </div>
   );
 };
