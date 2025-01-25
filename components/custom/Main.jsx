@@ -5,6 +5,9 @@ import Lookup from "@/data/Lookup";
 import { ArrowRight, Link } from "lucide-react";
 import React, { useContext, useState } from "react";
 import SignupDialog from "./SignupDialog";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const Main = () => {
   const [userInput, setuserInput] = useState();
@@ -12,17 +15,30 @@ const Main = () => {
   const { messages, setMessages } = context;
   const {userDetails,setUserDetails}=useContext(UserDetailsContext)
   const [openDialog,setOpenDialog]=useState(false)
+  const CreateWorkSpace=useMutation(api.workspace.CreateWorkspace)
+  const router=useRouter();
 
 
-  const onGenerate = (input) => {
+  const  onGenerate = async(input) => {
     if(!userDetails?.name){
       setOpenDialog(true)
       return ; 
     }
-    setMessages({
+
+    const msg = {
       role: "user",
       content: input,
-    });
+    };
+    setMessages(msg);
+
+    const  worksSpaceID=await CreateWorkSpace({
+      user:userDetails._id,
+      messages:[msg],
+
+    })
+    console.log(worksSpaceID)
+    router.push('/workspace/'+worksSpaceID)
+    
   };
   return (
     <div className="flex flex-col mt-20 justify-center items-center  gap-2 ">

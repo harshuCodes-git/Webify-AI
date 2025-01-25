@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Provider from "./Provider";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 
 
@@ -13,17 +14,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        
-      >
-        <Provider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </Provider>
+      <body suppressHydrationWarning>
+        <ConvexClientProvider>
+          <Provider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </Provider>
+        </ConvexClientProvider>
       </body>
     </html>
   );
