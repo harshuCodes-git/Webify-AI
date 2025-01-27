@@ -10,55 +10,64 @@ import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 
 const Main = () => {
-  const [userInput, setuserInput] = useState();
+  const [userInput, setuserInput] = useState("");
   const context = useContext(ContextMessage);
   const { messages, setMessages } = context;
-  const {userDetails,setUserDetails}=useContext(UserDetailsContext)
-  const [openDialog,setOpenDialog]=useState(false)
-  const CreateWorkSpace=useMutation(api.workspace.CreateWorkspace)
-  const router=useRouter();
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+  const [openDialog, setOpenDialog] = useState(false);
+  const createWorkSpace = useMutation(api.workspace.CreateWorkspace);
+  const router = useRouter();
 
+  const onGenerate = async (input) => {
+    if (!userDetails?.name) {
+      setOpenDialog(true);
+      return;
+    }
 
-  const  onGenerate = async(input) => {
-    if(!userDetails?.name){
-      setOpenDialog(true)
-      return ; 
+    if (typeof input !== "string" || input.trim() === "") {
+      console.error("Invalid input. Expected a non-empty string.");
+      return;
     }
 
     const msg = {
       role: "user",
-      content: input,
+      content: input.trim(),
     };
-    setMessages(msg);
 
-    const  worksSpaceID=await CreateWorkSpace({
-      user:userDetails._id,
-      messages:[msg],
+    setMessages({ ...msg });
 
-    })
-    console.log(worksSpaceID)
-    router.push('/workspace/'+worksSpaceID)
-    
+    try {
+      const worksSpaceID = await createWorkSpace({
+        user: userDetails._id,
+        messages: [{ ...msg }],
+      });
+
+      console.log(worksSpaceID);
+      router.push(`/workspace/${worksSpaceID}`);
+    } catch (error) {
+      console.error("Error creating workspace:", error);
+    }
   };
+
   return (
-    <div className="flex flex-col mt-20 justify-center items-center  gap-2 ">
+    <div className="flex flex-col mt-20 justify-center items-center gap-2">
       <h2 className="font-bold text-4xl">{Lookup.HERO_HEADING}</h2>
       <p className="font-medium text-gray-400">{Lookup.HERO_DESC}</p>
-      <div className="p-5 border rounded-xl w-full max-w-2xl ">
+      <div className="p-5 border rounded-xl w-full max-w-2xl">
         <div className="flex gap-2">
           <textarea
             name=""
             id=""
             placeholder={Lookup.INPUT_PLACEHOLDER}
             onChange={(event) => {
-              setuserInput(event);
+              setuserInput(event.target.value); // Correctly set the input value
             }}
-            className="outline-none bg-transparent w-full h-32 max-h-56  overflow-auto"
+            className="outline-none bg-transparent w-full h-32 max-h-56 overflow-auto"
           ></textarea>
-          {userInput && (
+          {userInput && userInput.trim() && (
             <ArrowRight
               onClick={() => onGenerate(userInput)}
-              className="bg-blue-600 p-2  rounded-md cursor-pointer h-8 w-8 "
+              className="bg-blue-600 p-2 rounded-md cursor-pointer h-8 w-8"
             />
           )}
         </div>
@@ -77,7 +86,10 @@ const Main = () => {
           </h2>
         ))}
       </div>
-      <SignupDialog openDia={openDialog} closeDialog ={(v)=>setOpenDialog(false)}/>
+      <SignupDialog
+        openDia={openDialog}
+        closeDialog={(v) => setOpenDialog(false)}
+      />
     </div>
   );
 };

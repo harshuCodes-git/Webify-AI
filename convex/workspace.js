@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 export const CreateWorkspace = mutation({
   args: {
@@ -14,3 +14,13 @@ export const CreateWorkspace = mutation({
 
   }
 });
+
+export const GetWorkspace = query({
+  args: { worksSpaceID: v.optional(v.id("workspace")) },
+  handler: async (ctx, args) => {
+    console.log("Received args:", args); // Debug log
+    const result = await ctx.db.get(args.worksSpaceID);
+    return result;
+  },
+});
+
