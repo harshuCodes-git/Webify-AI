@@ -1,28 +1,18 @@
-import { ChatSession } from "@google/generative-ai";
+import { chatSession } from "@/config/AIModel";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  try {
-    const { prompt } = await req.json();
+  const {prompt}=await req.json();
 
-    if (!prompt) {
-      return NextResponse.json(
-        { error: "Prompt is required" },
-        { status: 400 }
-      );
-    }
+  try{
+    const res=await chatSession.sendMessage(prompt);
+    const AIresponse=res.response.text(); 
 
-    const result = await ChatSession.sendMessage(prompt);
+    return NextResponse.json({result:AIresponse})
 
-    // Check the structure of the result
-    const AIresp = result?.response?.text ?? "No response from AI";
-
-    return NextResponse.json({ result: AIresp });
-  } catch (err) {
-    console.error("Error in ChatSession:", err);
-    return NextResponse.json(
-      { error: "Internal Server Error. Please try again later." },
-      { status: 500 }
-    );
+  }catch(err){
+    return NextResponse.json({err})
   }
+
+
 }

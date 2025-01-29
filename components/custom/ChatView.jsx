@@ -1,5 +1,5 @@
 "use client";
-import { useConvex } from "convex/react";
+import { useConvex, useMutation } from "convex/react";
 import { useParams } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { api } from "@/convex/_generated/api";
@@ -7,7 +7,7 @@ import { ContextMessage } from "@/context/ContextMessage";
 import Colors from "@/data/Colors";
 import { UserDetailsContext } from "@/context/UserDetailsContext";
 import Image from "next/image";
-import { ArrowRight, Link } from "lucide-react";
+import { ArrowRight, Link, Loader2Icon } from "lucide-react";
 import Prompt from "@/data/Prompt";
 import axios from "axios";
 
@@ -15,8 +15,10 @@ const ChatView = () => {
   const { id } = useParams();
   const convex = useConvex();
   const { messages, setMessages } = useContext(ContextMessage);
-  const { userDetails, setUserDetails }= useContext(UserDetailsContext); 
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const [userInput, setuserInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const UpdateMessages=useMutation(api.workspace.UpdateMessages)
 
   useEffect(() => {
     if (id) {
@@ -25,50 +27,68 @@ const ChatView = () => {
   }, [id]);
 
   const GetWorkspaceData = async () => {
-    try {
-      const result = await convex.query(api.workspace.GetWorkspace, {
-        worksSpaceID: id,
-      });
-      console.log(result); // Inspect the response structure
+    const result = await convex.query(api.workspace.GetWorkspace, {
+      worksSpaceID: id,
+    });
+    console.log(result); // Inspect the response structure
 
-      // Check if the response contains messages
-      if (result && result.messages && Array.isArray(result.messages)) {
-        setMessages(result.messages); // If messages are found, update state
-      } else {
-        setMessages([]); // If no messages or invalid structure, fallback
-        console.error("Expected an array of messages, but got:", result);
-      }
-    } catch (error) {
-      console.error("Error fetching workspace data:", error);
-      setMessages([]); // Handle errors by setting an empty array
-    }
+    setMessages(result?.messages);
   };
 
-  const GetAIResponse=async()=>{
-    const PROMPT=JSON.stringify(messages)+Prompt.CHAT_PROMPT
-    const result = await axios.post('/api/ai-chat/',{
-      prompt:PROMPT
-    })
-    console.log(result.data)
-  }
+  const GetAIResponse = async () => {
+    setLoading(true);
+    const PROMPT = JSON.stringify(messages) + Prompt.CHAT_PROMPT;
+    const result = await axios.post("/api/ai-chat", {
+      prompt: PROMPT,
+    });
+    console.log(result.data.result);
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "ai",
+        content: result.data.result,
+      },
+    ]);
 
-  useEffect(()=>{
-    if(messages?.length>0){
-      const role=messages[messages?.length-1].role;
-      if(role=='user'){
-        GetAIResponse()
+    await UpdateMessages({
+      messages: [
+        ...messages,
+        {
+          role: "ai",
+          content: result.data.result,
+        },
+      ],workspaceId:id
+    });
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (messages?.length > 0) {
+      const role = messages[messages?.length - 1].role;
+      if (role == "user") {
+        GetAIResponse();
       }
     }
-  },[messages])
+  }, [messages]);
+
+  // function for creating on generate response 
+
+  const onGenerate=(input)=>{
+    setMessages(prev=>[...prev,{
+      role:'user',
+      content:input,
+    }])
+  }
 
   return (
     <div className="relative h-[85vh] flex flex-col">
-      <div className="flex-1 overflow-y-scroll scroll-clip overscroll-auto overflow-visible">
+      <div className="flex-1 overflow-y-scroll scroll-clip overscroll-auto overflow-visible scrollbar-hide">
         {Array.isArray(messages) && messages.length > 0 ? (
           messages.map((msg, index) => (
             <div
               key={index}
-              className="p-3 rounded-lg mb-2 flex gap-2 items-start "
+              className="p-3 rounded-lg mb-2 flex gap-2 items-start leading-5 text-sm"
               style={{
                 backgroundColor: Colors.CHAT_BACKGROUND,
               }}
@@ -82,11 +102,17 @@ const ChatView = () => {
                   className="rounded-full"
                 />
               )}
-              <h2>{msg.content}</h2>
+              <h2 className="flex text-sm mt-2">{msg.content}</h2>
             </div>
           ))
         ) : (
           <p>No messages available</p> // Fallback if no messages are available
+        )}
+        {loading && (
+          <div className="p-3 rounded-lg mb-2 flex gap-2 items-start ">
+            <Loader2Icon className="animate-spin" />
+            <h2>Generating response...</h2>
+          </div>
         )}
       </div>
       <div className="p-5 border rounded-xl w-full max-w-2xl">
