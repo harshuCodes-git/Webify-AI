@@ -8,6 +8,8 @@ import Colors from "@/data/Colors";
 import { UserDetailsContext } from "@/context/UserDetailsContext";
 import Image from "next/image";
 import { ArrowRight, Link } from "lucide-react";
+import Prompt from "@/data/Prompt";
+import axios from "axios";
 
 const ChatView = () => {
   const { id } = useParams();
@@ -41,6 +43,23 @@ const ChatView = () => {
       setMessages([]); // Handle errors by setting an empty array
     }
   };
+
+  const GetAIResponse=async()=>{
+    const PROMPT=JSON.stringify(messages)+Prompt.CHAT_PROMPT
+    const result = await axios.post('/api/ai-chat/',{
+      prompt:PROMPT
+    })
+    console.log(result.data)
+  }
+
+  useEffect(()=>{
+    if(messages?.length>0){
+      const role=messages[messages?.length-1].role;
+      if(role=='user'){
+        GetAIResponse()
+      }
+    }
+  },[messages])
 
   return (
     <div className="relative h-[85vh] flex flex-col">
