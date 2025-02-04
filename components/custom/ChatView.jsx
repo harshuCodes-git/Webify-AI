@@ -10,6 +10,7 @@ import Image from "next/image";
 import { ArrowRight, Link, Loader2Icon } from "lucide-react";
 import Prompt from "@/data/Prompt";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 const ChatView = () => {
   const { id } = useParams();
@@ -57,7 +58,7 @@ const ChatView = () => {
           role: "ai",
           content: result.data.result,
         },
-      ],workspaceId:id
+      ],worksSpaceID:id
     });
 
     setLoading(false);
@@ -102,7 +103,8 @@ const ChatView = () => {
                   className="rounded-full"
                 />
               )}
-              <h2 className="flex text-sm mt-2">{msg.content}</h2>
+              <ReactMarkdown className="flex flex-col text-sm
+              ">{msg.content}</ReactMarkdown>
             </div>
           ))
         ) : (

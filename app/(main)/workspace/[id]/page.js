@@ -5,13 +5,13 @@ import CodeView from '@/components/custom/CodeView';
 const page = () => {
   return (
     <div>
-      <div className=" p-2 w-auto flex justify-between">
+      <div className=" p-1 w-auto flex justify-between">
         <Image src="/logo.svg" width={30} height={20} alt="logo" />
       </div>
-      <div className="p-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="p-5">
+        <div className="grid grid-cols-3 md:grid-cols-4 gap-10">
           <ChatView />
-          <div className='col-span-2'>
+          <div className='col-span-3'>
             <CodeView />
           </div>
         </div>
