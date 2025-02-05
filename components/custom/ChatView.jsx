@@ -11,6 +11,8 @@ import { ArrowRight, Link, Loader2Icon } from "lucide-react";
 import Prompt from "@/data/Prompt";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import Lookup from "@/data/Lookup";
+import { useSidebar } from "../ui/sidebar";
 
 const ChatView = () => {
   const { id } = useParams();
@@ -20,6 +22,7 @@ const ChatView = () => {
   const [userInput, setuserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const UpdateMessages=useMutation(api.workspace.UpdateMessages)
+  const {toggleSidebar}=useSidebar()
 
   useEffect(() => {
     if (id) {
@@ -84,7 +87,7 @@ const ChatView = () => {
 
   return (
     <div className="relative h-[85vh] flex flex-col">
-      <div className="flex-1 overflow-y-scroll scroll-clip overscroll-auto overflow-visible scrollbar-hide">
+      <div className="flex-1 pl-10 overflow-y-scroll scroll-clip overscroll-auto overflow-visible scrollbar-hide">
         {Array.isArray(messages) && messages.length > 0 ? (
           messages.map((msg, index) => (
             <div
@@ -117,9 +120,15 @@ const ChatView = () => {
           </div>
         )}
       </div>
+
+      <div className="flex items-end gap-2">
+        {userDetails&&<Image src={userDetails?.picture} alt="user" width={30} height={30} 
+        className="rounded-full cursor-pointer" 
+        onClick={toggleSidebar}/>}
       <div className="p-5 border rounded-xl w-full max-w-2xl">
         <div className="flex gap-2">
           <textarea
+          placeholder={Lookup.INPUT_PLACEHOLDER}
             name=""
             id=""
             onChange={(event) => {
@@ -137,6 +146,7 @@ const ChatView = () => {
         <div>
           <Link className="h-4 w-4" />
         </div>
+      </div>
       </div>
     </div>
   );

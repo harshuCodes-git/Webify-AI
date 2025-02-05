@@ -35,3 +35,27 @@ export const UpdateMessages=mutation({
     return result
   }
 })
+
+
+export const UpdateFile = mutation({
+  args: {
+    worksSpaceID: v.optional(v.id("workspace")),
+    files: v.any(),
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.db.patch(args.worksSpaceID, {
+      file: args.files,
+    });
+    return result;
+  },
+});
+
+export const GetAllWorkspace=query({
+  args:{
+    userId:v.id('users')
+  },
+  handler: async (ctx,args)=>{
+    const result = await ctx.db.query('workspace').filter(q=>q.eq(q.field('user'),args.userId)).collect()
+    return result; 
+  }
+})

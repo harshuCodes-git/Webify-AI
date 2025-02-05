@@ -50,7 +50,10 @@ const Main = () => {
   };
 
   return (
-    <div className="flex flex-col mt-20 justify-center items-center gap-2">
+    <div
+      className="flex flex-col mt-20 justify-center items-center gap-2"
+      suppressHydrationWarning
+    >
       <h2 className="font-bold text-4xl">{Lookup.HERO_HEADING}</h2>
       <p className="font-medium text-gray-400">{Lookup.HERO_DESC}</p>
       <div className="p-5 border rounded-xl w-full max-w-2xl">
