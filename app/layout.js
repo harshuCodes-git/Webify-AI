@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Provider from "./Provider";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next";
 
 
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
           >
             {children}
             <Toaster />
+            <Analytics/>
           </Provider>
         </ConvexClientProvider>
       </body>
