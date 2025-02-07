@@ -23,8 +23,9 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
+      - name: npx convex deploy --cmd 'npm run build'
         run: |
+        npx convex dev 
           npm install
           npm run build --if-present
           npm run test --if-present
