@@ -1,10 +1,9 @@
-import React from 'react'
+import React from "react";
 import Image from "next/image";
-import ChatView from '@/components/custom/ChatView';
-import CodeView from '@/components/custom/CodeView';
+import ChatView from "@/components/custom/ChatView";
+import CodeView from "@/components/custom/CodeView";
 import dynamic from "next/dynamic";
-import { Button } from '@/components/ui/button';
-
+import { Button } from "@/components/ui/button";
 
 const page = () => {
   return (
@@ -26,6 +25,6 @@ const page = () => {
       </div>
     </div>
   );
-}
+};
 
-export default page
+export default page;

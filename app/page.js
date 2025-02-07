@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="" suppressHydrationWarning>
+    <div className="w-full" suppressHydrationWarning>
       <Navbar suppressHydrationWarning />
       <Main suppressHydrationWarning />
     </div>

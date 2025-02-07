@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Provider from "./Provider";
 import { ConvexClientProvider } from "./ConvexClientProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </Provider>
         </ConvexClientProvider>
       </body>

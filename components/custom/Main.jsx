@@ -24,6 +24,11 @@ const Main = () => {
       return;
     }
 
+    if (userDetails?.token < 10) {
+      toast("You dont have enough token");
+      return;
+    }
+
     if (typeof input !== "string" || input.trim() === "") {
       console.error("Invalid input. Expected a non-empty string.");
       return;

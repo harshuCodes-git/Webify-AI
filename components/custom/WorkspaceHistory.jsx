@@ -22,7 +22,7 @@ const WorkspaceHistory = () => {
       });
 
       setWorkSpaceList(result || []); // Default to empty array if result is undefined
-      console.log(result);
+      // console.log(result);
     } catch (error) {
       console.error("Error fetching workspaces:", error);
     }
