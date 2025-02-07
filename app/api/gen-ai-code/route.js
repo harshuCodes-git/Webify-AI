@@ -8,7 +8,7 @@ export async function POST(req) {
 
     // Abort request if it takes too long (10 sec timeout)
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 sec
+    const timeoutId = setTimeout(() => controller.abort(), 100000); // 10 sec
 
     // Send the prompt to AI model
     const result = await GenAICode.sendMessage(prompt);
