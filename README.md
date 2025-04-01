@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Webify AI 🚀  
 
-## Getting Started
+Webify AI is a **Next.js-powered AI-driven web development platform** inspired by Bolt.new. Unlike traditional tools, it features a **custom-built Large Language Model (LLM) module**, enhancing the development process with AI-assisted suggestions, auto-generated code, and seamless deployment.
 
-First, run the development server:
+## Features ✨  
+
+- 🧠 **Custom LLM Module** - AI-powered assistance for development.  
+- 🔄 **Convex DB** - Real-time, serverless database for fast data handling.  
+- 💳 **PayPal Integration** - Secure payment processing.  
+- ☁️ **AWS IAM** - Managed access control for cloud-based resources.  
+- 🔑 **Google Authentication** - Seamless and secure user authentication.  
+- 🚀 **Fast Deployment** - AI-assisted workflows for efficient web app creation.  
+
+## Tech Stack 🛠️  
+
+- **Frontend:** Next.js, Tailwind CSS  
+- **Backend:** Next.js API routes, Convex DB  
+- **LLM Module:** Custom-built AI model for intelligent code suggestions  
+- **Authentication:** Google OAuth  
+- **Payments:** PayPal API  
+- **Cloud Services:** AWS IAM, AWS Amplify  
+
+## Installation 🏗️  
+
+1. Clone the repository:  
+
+   ```bash
+   git clone https://github.com/harshuCodes-git/Webify-AI.git
+   ```  
+
+2. Install dependencies:  
+
+   ```bash
+   npm install
+   ```  
+
+3. Set up environment variables in `.env.local`:  
+
+   ```plaintext
+   NEXT_PUBLIC_CONVEX_URL=your_convex_url
+   PAYPAL_CLIENT_ID=your_paypal_client_id
+   PAYPAL_SECRET=your_paypal_secret
+   AWS_ACCESS_KEY_ID=your_aws_access_key
+   AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   LLM_API_KEY=your_llm_api_key
+   ```  
+
+4. Run the development server:  
+
+   ```bash
+   npm run dev
+   ```  
+
+   The app will be available at `http://localhost:3000`.  
+
+## Deployment 🚀  
+
+Webify AI is deployed on **AWS Amplify**. To deploy your own instance, follow these steps:
+
+1. Push your code to a GitHub repository.
+2. Go to **AWS Amplify Console** and connect your repository.
+3. Configure the build settings (Amplify detects Next.js automatically).
+4. Deploy and monitor your application through the Amplify dashboard.
+
+Alternatively, you can deploy using **Vercel** or other cloud providers:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+vercel deploy
+```  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contributing 🤝  
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+We welcome contributions! Feel free to submit issues and pull requests.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License 📜  
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
