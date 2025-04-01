@@ -1,4 +1,7 @@
-# Webify AI 🚀  
+# [Webify AI 🚀](https://main.d2wswqoezwikuk.amplifyapp.com/)  
+
+## Deployed Link: [https://main.d2wswqoezwikuk.amplifyapp.com/](https://main.d2wswqoezwikuk.amplifyapp.com/)
+
 
 Webify AI is a **Next.js-powered AI-driven web development platform** inspired by Bolt.new. Unlike traditional tools, it features a **custom-built Large Language Model (LLM) module**, enhancing the development process with AI-assisted suggestions, auto-generated code, and seamless deployment.
 
